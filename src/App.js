@@ -6,6 +6,7 @@ import Category from "./components/category";
 import ShowFullItem from "./components/showfullitem";
 import ContactPage from "./components/contactpage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import About from "./components/about";
 
 class App extends React.Component {
     constructor(props) {
@@ -74,17 +75,31 @@ class App extends React.Component {
     }
     render() {
         return (
-
-            <div className='wrapper'>
-                <Header orders={this.state.orders} onDelete={this.deleteToOrder} />
-                <Category chooseCategory={this.chooseCategory}/>
-                <Items onShowItem={this.onShowItem} items={this.state.currentItems} onAdd={this.addToOrder}/>
-                {this.state.showFullItems && <ShowFullItem onAdd={this.addToOrder} onShowItem={this.onShowItem} item={this.state.fullItem}/>}
-                <ContactPage />
-                <Footer/>
-            </div>
+            <BrowserRouter>
+                <div className='wrapper'>
+                    <Header orders={this.state.orders} onDelete={this.deleteToOrder}/>
+                    <Routes>
+                        <Route path="/items" element={<Items onShowItem={this.onShowItem} items={this.state.currentItems} onAdd={this.addToOrder}/>} />
+                        <Route path="/contactpage" element={<ContactPage />} />
+                        <Route path="/category" element={
+                            <React.Fragment>
+                                <Category chooseCategory={this.chooseCategory} />
+                                <Items
+                                    onShowItem={this.onShowItem}
+                                    items={this.state.currentItems}
+                                    onAdd={this.addToOrder}
+                                />
+                            </React.Fragment>
+                        } />
+                        <Route path="/about" element={<About/>} />
+                    </Routes>
+                    {this.state.showFullItems && <ShowFullItem onAdd={this.addToOrder} onShowItem={this.onShowItem} item={this.state.fullItem}/>}
+                    <Footer/>
+                </div>
+            </BrowserRouter>
         );
     }
+
 
     onShowItem(item) {
         this.setState({fullItem: item})

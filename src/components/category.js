@@ -37,6 +37,7 @@ export class Category extends Component {
                     <div key={el.key} onClick={() => this.props.chooseCategory(el.key)}>{el.name}</div>
                 ))}
             </div>
+
         )
     }
 }
